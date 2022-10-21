@@ -27,7 +27,7 @@ func generateCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "generate",
 		Short:   "Generate the Github App Installation access token",
-		Aliases: []string{"gen"},
+		Aliases: []string{"create", "gen"},
 		Args:    cobra.NoArgs,
 		Example: `  # generate the Github App access token
   gh-app-access-token generate \

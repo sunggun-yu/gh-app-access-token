@@ -1,4 +1,4 @@
-module github.com/sunggun-yu/gh-app-access-token-cli
+module github.com/sunggun-yu/gh-app-access-token
 
 go 1.19
 

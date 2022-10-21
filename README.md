@@ -1,6 +1,11 @@
 # gh-app-access-token-cli
 
-Simple Cli tool for operating Github App Installation access token
+Simple Cli tool for operating Github App Installation access token:
+
+- create an access token
+- revoke an access token
+
+,with simply wrapping cli functionality on top of <https://github.com/bradleyfalzon/ghinstallation> and <https://github.com/google/go-github>
 
 ## Installation
 
@@ -54,7 +59,7 @@ echo "private-key-text" | gh-app-access-token generate \
 
 >⚠️ Note/Warning
 >
-> it keeps waiting(hang) if there is no stdin.
+> it keeps waiting(hang) if there is no stdin when you pass `-` for arg/value
 
 ### Revoke the Github App access token
 
@@ -71,4 +76,4 @@ echo "access-token-value" | gh-app-access-token-cli revoke -
 
 >⚠️ Note/Warning
 >
-> it keeps waiting(hang) if there is no stdin.
+> it keeps waiting(hang) if there is no stdin when you pass `-` for arg/value

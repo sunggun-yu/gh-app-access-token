@@ -5,8 +5,8 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/sunggun-yu/gh-app-access-token-cli/internal/utils"
-	"github.com/sunggun-yu/gh-app-access-token-cli/pkg/installation"
+	"github.com/sunggun-yu/gh-app-access-token/internal/utils"
+	"github.com/sunggun-yu/gh-app-access-token/pkg/installation"
 )
 
 // revokeCmd func represents the revoke command

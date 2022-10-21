@@ -6,7 +6,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/sunggun-yu/gh-app-access-token-cli/cmd"
+	"github.com/sunggun-yu/gh-app-access-token/cmd"
 )
 
 var (

@@ -51,7 +51,7 @@ brews:
       name: homebrew-tap
       branch: main
     description: "Cli wrapper to set profile based environment variables for your command line execution"
-    homepage: https://github.com/sunggun-yu/gh-app-access-token-cli
+    homepage: https://github.com/sunggun-yu/gh-app-access-token
     folder: Formula
     download_strategy: CurlDownloadStrategy
     install: |

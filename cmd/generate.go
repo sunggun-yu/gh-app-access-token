@@ -9,8 +9,8 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/sunggun-yu/gh-app-access-token-cli/internal/utils"
-	"github.com/sunggun-yu/gh-app-access-token-cli/pkg/installation"
+	"github.com/sunggun-yu/gh-app-access-token/internal/utils"
+	"github.com/sunggun-yu/gh-app-access-token/pkg/installation"
 )
 
 // flags struct for show command

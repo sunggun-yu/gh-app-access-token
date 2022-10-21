@@ -1,0 +1,60 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+
+project_name: gh-app-access-token
+
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - env:
+      - CGO_ENABLED=0
+    binary: "{{ .ProjectName }}"
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    goarm:
+      - "6"
+      - "7"
+    ignore:
+      - goos: windows
+        goarch: arm64
+archives:
+  - format: tar.gz
+    wrap_in_directory: "true"
+    format_overrides:
+      - goos: windows
+        format: zip
+checksum:
+  name_template: 'checksums.txt'
+  algorithm: sha256
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - "README"
+      - "Merge pull request"
+      - "Merge branch"
+
+brews:
+  - name: "gh-app-access-token"
+    tap:
+      owner: sunggun-yu
+      name: homebrew-tap
+      branch: main
+    description: "Cli wrapper to set profile based environment variables for your command line execution"
+    homepage: https://github.com/sunggun-yu/gh-app-access-token-cli
+    folder: Formula
+    download_strategy: CurlDownloadStrategy
+    install: |
+      bin.install "{{ .ProjectName }}"
+    test: |
+      system "#{bin}/{{ .ProjectName }} -v"

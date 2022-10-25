@@ -1,8 +1,8 @@
-# This is an example .goreleaser.yml file with some sensible defaults.
-# Make sure to check the documentation at https://goreleaser.com
-
 project_name: gh-app-access-token
-
+env:
+  - DOCKER_REGISTRY=ghcr.io/sunggun-yu
+  - DESCRIPTION=Semantic Version Utility
+  - HOME_PAGE=https://github.com/sunggun-yu/{{ .ProjectName }}
 before:
   hooks:
     - go mod tidy
@@ -17,44 +17,111 @@ builds:
     goarch:
       - amd64
       - arm64
-    goarm:
-      - "6"
-      - "7"
-    ignore:
-      - goos: windows
-        goarch: arm64
+    mod_timestamp: '{{ .CommitTimestamp }}'
+
+universal_binaries:
+- replace: true
+
 archives:
-  - format: tar.gz
+  - name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
     wrap_in_directory: "true"
     format_overrides:
       - goos: windows
         format: zip
+
 checksum:
   name_template: 'checksums.txt'
   algorithm: sha256
+
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
+
 changelog:
   sort: asc
+  use: github
   filters:
     exclude:
-      - '^docs:'
-      - '^test:'
-      - "README"
-      - "Merge pull request"
-      - "Merge branch"
+    - '^docs:'
+    - '^test:'
+    - '^chore'
+    - 'merge conflict'
+    - "README"
+    - Merge pull request
+    - Merge remote-tracking branch
+    - Merge branch
+    - go mod tidy
+  groups:
+    - title: Dependency updates
+      regexp: "^.*feat\\(deps\\)*:+.*$"
+      order: 300
+    - title: 'New Features'
+      regexp: "^.*feat[(\\w)]*:+.*$"
+      order: 100
+    - title: 'Bug fixes'
+      regexp: "^.*fix[(\\w)]*:+.*$"
+      order: 200
+    - title: 'Documentation updates'
+      regexp: "^.*docs[(\\w)]*:+.*$"
+      order: 400
+    - title: Other work
+      order: 9999
 
 brews:
+  # https://goreleaser.com/customization/homebrew/
   - name: "gh-app-access-token"
     tap:
       owner: sunggun-yu
       name: homebrew-tap
-      branch: main
-    description: "Cli wrapper to set profile based environment variables for your command line execution"
-    homepage: https://github.com/sunggun-yu/gh-app-access-token
     folder: Formula
-    download_strategy: CurlDownloadStrategy
-    install: |
-      bin.install "{{ .ProjectName }}"
-    test: |
-      system "#{bin}/{{ .ProjectName }} -v"
+    homepage: '{{ .Env.HOME_PAGE }}'
+    description: '{{ .Env.DESCRIPTION }}'
+
+nfpms:
+  # https://goreleaser.com/customization/nfpm/
+  - homepage: '{{ .Env.HOME_PAGE }}'
+    description: '{{ .Env.DESCRIPTION }}'
+    maintainer: Sunggun Yu <sunggun.dev@gmail.com>
+    license: MIT
+    vendor: Sunggun Yu
+    formats:
+    - apk
+    - deb
+    - rpm
+
+dockers:
+  # https://goreleaser.com/customization/docker/
+  - use: buildx
+    goos: linux
+    goarch: amd64
+    dockerfile: Dockerfile
+    image_templates:
+      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-amd64"
+      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:latest-amd64"
+    build_flag_templates:
+      - "--platform=linux/amd64"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+  - use: buildx
+    goos: linux
+    goarch: arm64
+    image_templates:
+      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-arm64v8"
+      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:latest-arm64v8"
+    build_flag_templates:
+      - "--platform=linux/arm64/v8"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+docker_manifests:
+  # https://goreleaser.com/customization/docker_manifest/
+  - name_template: "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:{{ .Version }}"
+    image_templates:
+      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-amd64"
+      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-arm64v8"
+  - name_template: "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:latest"
+    image_templates:
+      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:latest-amd64"
+      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:latest-arm64v8"

@@ -1,8 +1,8 @@
 project_name: gh-app-access-token
 env:
-  - DOCKER_REGISTRY=ghcr.io/sunggun-yu
-  - DESCRIPTION=Semantic Version Utility
-  - HOME_PAGE=https://github.com/sunggun-yu/{{ .ProjectName }}
+  - REGISTRY=ghcr.io/sunggun-yu
+  - DESCRIPTION=Simple Cli tool for operating Github App Installation access token
+  - HOMEPAGE=https://github.com/sunggun-yu/{{ .ProjectName }}
 before:
   hooks:
     - go mod tidy
@@ -73,12 +73,12 @@ brews:
       owner: sunggun-yu
       name: homebrew-tap
     folder: Formula
-    homepage: '{{ .Env.HOME_PAGE }}'
+    homepage: '{{ .Env.HOMEPAGE }}'
     description: '{{ .Env.DESCRIPTION }}'
 
 nfpms:
   # https://goreleaser.com/customization/nfpm/
-  - homepage: '{{ .Env.HOME_PAGE }}'
+  - homepage: '{{ .Env.HOMEPAGE }}'
     description: '{{ .Env.DESCRIPTION }}'
     maintainer: Sunggun Yu <sunggun.dev@gmail.com>
     license: MIT
@@ -95,8 +95,8 @@ dockers:
     goarch: amd64
     dockerfile: Dockerfile
     image_templates:
-      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-amd64"
-      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:latest-amd64"
+      - "{{ .Env.REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-amd64"
+      - "{{ .Env.REGISTRY }}/{{ .ProjectName }}:latest-amd64"
     build_flag_templates:
       - "--platform=linux/amd64"
       - "--label=org.opencontainers.image.created={{.Date}}"
@@ -107,8 +107,8 @@ dockers:
     goos: linux
     goarch: arm64
     image_templates:
-      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-arm64v8"
-      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:latest-arm64v8"
+      - "{{ .Env.REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-arm64v8"
+      - "{{ .Env.REGISTRY }}/{{ .ProjectName }}:latest-arm64v8"
     build_flag_templates:
       - "--platform=linux/arm64/v8"
       - "--label=org.opencontainers.image.created={{.Date}}"
@@ -117,11 +117,11 @@ dockers:
       - "--label=org.opencontainers.image.version={{.Version}}"
 docker_manifests:
   # https://goreleaser.com/customization/docker_manifest/
-  - name_template: "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:{{ .Version }}"
+  - name_template: "{{ .Env.REGISTRY }}/{{ .ProjectName }}:{{ .Version }}"
     image_templates:
-      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-amd64"
-      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-arm64v8"
-  - name_template: "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:latest"
+      - "{{ .Env.REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-amd64"
+      - "{{ .Env.REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-arm64v8"
+  - name_template: "{{ .Env.REGISTRY }}/{{ .ProjectName }}:latest"
     image_templates:
-      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:latest-amd64"
-      - "{{ .Env.DOCKER_REGISTRY }}/{{ .ProjectName }}:latest-arm64v8"
+      - "{{ .Env.REGISTRY }}/{{ .ProjectName }}:latest-amd64"
+      - "{{ .Env.REGISTRY }}/{{ .ProjectName }}:latest-arm64v8"

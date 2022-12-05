@@ -21,6 +21,12 @@ go install:
 go install github.com/sunggun-yu/gh-app-access-token@<version>
 ```
 
+docker:
+
+```bash
+docker pull ghcr.io/sunggun-yu/gh-app-access-token:latest
+```
+
 ## Usage
 
 ### Generate a Github App access token
@@ -57,6 +63,32 @@ echo "private-key-text" | gh-app-access-token generate \
   --private-key -
 ```
 
+### Generate a Github App access toekn using docker image
+
+```bash
+docker run --rm \
+  -v <your-github-app-private-key-file-path.pem>:/private-key.pem \
+  ghcr.io/sunggun-yu/gh-app-access-token:latest \
+  generate --app-id [app-id] --installation-id [installation-id] -f /private-key.pem
+```
+
+Use environemnt variable: e.g. run it on circleci or github actions
+
+>⚠️ Note
+>
+> base64 encoded private key should be set in the environment variable
+
+```bash
+docker run --rm --entrypoint="/bin/sh" \
+  ghcr.io/sunggun-yu/gh-app-access-token:latest \
+  -c \
+  "echo -e $GH_APP_PRIVATE_KEY | base64 -d | \
+  gh-app-access-token generate \
+  --app-id $GH_APP_ID \
+  --installation-id $GH_APP_INSTALLATION_ID \
+  -f -"
+```
+
 >⚠️ Note/Warning
 >
 > it keeps waiting(hang) if there is no stdin when you pass `-` for arg/value
@@ -77,3 +109,11 @@ echo "access-token-value" | gh-app-access-token-cli revoke -
 >⚠️ Note/Warning
 >
 > it keeps waiting(hang) if there is no stdin when you pass `-` for arg/value
+
+### Revoke the Github App access token using docker image
+
+```bash
+docker run --rm \
+  ghcr.io/sunggun-yu/gh-app-access-token:latest \
+  revoke [access token string]
+```

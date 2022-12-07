@@ -27,6 +27,25 @@ docker:
 docker pull ghcr.io/sunggun-yu/gh-app-access-token:latest
 ```
 
+shell script:
+
+```bash
+curl -sfL https://raw.githubusercontent.com/sunggun-yu/gh-app-access-token/main/install.sh | sh
+```
+
+it place `gh-app-access-token` in `/tmp` directory. please set `INSTALL_PATH` env var to change directory
+
+```bash
+export INSTALL_PATH=/<some-dir>
+curl -sfL https://raw.githubusercontent.com/sunggun-yu/gh-app-access-token/main/install.sh | sh
+```
+
+or,
+
+```bash
+curl -sfL https://raw.githubusercontent.com/sunggun-yu/gh-app-access-token/main/install.sh | INSTALL_PATH=/<some-dir> sh
+```
+
 ## Usage
 
 ### Generate a Github App access token

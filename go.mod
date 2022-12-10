@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/bradleyfalzon/ghinstallation/v2 v2.1.0
-	github.com/google/go-github/v48 v48.1.0
+	github.com/google/go-github/v48 v48.2.0
 	github.com/spf13/cobra v1.6.1
 	golang.org/x/oauth2 v0.0.0-20180821212333-d2e6202438be
 )

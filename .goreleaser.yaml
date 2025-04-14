@@ -1,3 +1,4 @@
+version: 2
 project_name: gh-app-access-token
 env:
   - REGISTRY=ghcr.io/sunggun-yu
@@ -69,10 +70,10 @@ changelog:
 brews:
   # https://goreleaser.com/customization/homebrew/
   - name: "gh-app-access-token"
-    tap:
+    repository:
       owner: sunggun-yu
       name: homebrew-tap
-    folder: Formula
+    directory: Formula
     homepage: '{{ .Env.HOMEPAGE }}'
     description: '{{ .Env.DESCRIPTION }}'
 

@@ -1,6 +1,7 @@
 # gh-app-access-token-cli
 
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/sunggun-yu/gh-app-access-token/total)
+[![CodeQL](https://github.com/sunggun-yu/gh-app-access-token/actions/workflows/codeql.yaml/badge.svg)](https://github.com/sunggun-yu/gh-app-access-token/actions/workflows/codeql.yaml)
 
 Simple Cli tool for operating Github App Installation access token:
 

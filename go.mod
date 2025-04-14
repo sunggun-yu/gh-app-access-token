@@ -1,6 +1,6 @@
 module github.com/sunggun-yu/gh-app-access-token
 
-go 1.24
+go 1.24.2
 
 require (
 	github.com/bradleyfalzon/ghinstallation/v2 v2.5.0

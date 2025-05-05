@@ -6,7 +6,7 @@ require (
 	github.com/bradleyfalzon/ghinstallation/v2 v2.5.0
 	github.com/google/go-github/v48 v48.2.0
 	github.com/spf13/cobra v1.7.0
-	golang.org/x/oauth2 v0.29.0
+	golang.org/x/oauth2 v0.30.0
 )
 
 require (
